@@ -11,3 +11,9 @@ def create_book(request):
     )
 
     return HttpResponse("create")
+
+def shop(request,city_id,shop_id):
+    print(city_id,shop_id)
+
+    return HttpResponse("分店")
+
