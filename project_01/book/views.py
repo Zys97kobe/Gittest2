@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from book.models import Book
+from book.models import Book,Userinfo
 # Create your views here.
 def create_book(request):
     # book = Book.objects.create(
@@ -28,11 +28,35 @@ def school(request,prince_id,city_id,school_id):
 
     return HttpResponse("高校系统")
 
-"""
-查询字符串
-IP：PORT/path/path/?key1=value1 & key2=value2.....
 
 
+"""FORM 表单 JSON 数据的接受"""
+def register(request):
+    # FORM表单用request.POST获取数据
+    qs = request.POST
 
-"""
+    if len(qs)==0:
+    # JSON数据则需要用request.body获得
+        qs = request.body# 此时的qs为bytes类型的数据
 
+    qs_str = qs.decode() # decode将bytes转化为str类型
+    """ 
+    此时是JSON样式的 str数据，我们要把它转化为 python的字典使用 json.loads()
+        {
+            "username":"caiwenjuan",
+            "password":"123456"        
+        }
+    """
+    import json
+    qs = json.loads(qs_str)
+
+    # 获取POST的FORM表单，然后用字典操作，进行数据库输入
+
+    Userinfo.objects.create(username = qs.get("username"),
+                            password = qs.get("password"),)
+    return HttpResponse("注册操作")
+
+"""查看请求类型"""
+def method(request):
+
+    return HttpResponse("请求类型为：%s" % request.method)

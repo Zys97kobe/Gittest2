@@ -62,3 +62,14 @@ class PeopleInfo(models.Model):
     class Meta:
         db_table = 'PeopleInfo'
 
+class Userinfo(models.Model):
+
+    username = models.CharField(max_length=100, unique=True)
+    password = models.CharField(max_length = 18, null=False)
+    is_delete = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.username
+
+    class Meta:
+        db_table = 'userInfo'
