@@ -130,3 +130,45 @@ def del_Cookie(request):
     response.delete_cookie('name')
     #相当于set_cookie中将max_age设为0
     return response
+
+"""Session"""
+# Session保存于服务端
+# Session依赖于Cookie
+
+"""
+第一次请求
+在服务端设置session信息
+同时生成一个sessionid的cookie信息
+浏览器保存sessionid
+
+第二次之后的请求 都会携带这个sessionid信息
+http://127.0.0.1/set_Session/?username=zhangyongsheng&password=123456
+"""
+
+def set_Session(request):
+    # 获取用户信息
+    qs = request.GET
+    sessionInfo = list(qs.keys())
+
+    # 设置session信息
+    for i in sessionInfo:
+        request.session[i] = qs.get(i)
+
+
+    response = HttpResponse("Set Session")
+    return response
+
+def get_Session(request):
+    un = request.session.get('username')
+    pw = request.session.get('password')
+    content = "username:%s, password:%s"%(un,pw)
+    response = HttpResponse(content)
+    return response
+
+def del_Session(request):
+    request.session.clear()#只删除value保留Key
+    request.session.flush()#数据库里的Key value全无
+    # 设置session寿命
+    # request.session.set_expiry(max_age)
+
+    return HttpResponse("Del Session")

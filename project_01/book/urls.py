@@ -1,5 +1,7 @@
 from django.urls import path
-from book.views import create_book,delete_book,shop,school,register,method,response,jsresponse,Redirect,set_Cookie,get_Cookie,del_Cookie
+from book.views import create_book,delete_book,shop,school,register,method,\
+    response,jsresponse,Redirect,set_Cookie,get_Cookie,del_Cookie,set_Session,get_Session,del_Session
+
 
 """自定义转化器"""
 class SchoolConverter:
@@ -29,4 +31,7 @@ urlpatterns = [
     path('set_Cookie/',set_Cookie),
     path('get_Cookie/',get_Cookie),
     path('del_Cookie/',del_Cookie),
+    path('set_Session/',set_Session),
+    path('get_Session/',get_Session),
+    path('del_Session/',del_Session),
 ]
