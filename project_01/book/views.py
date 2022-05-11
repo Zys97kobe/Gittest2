@@ -40,8 +40,9 @@ def register(request):
     if len(qs)==0:
     # JSON数据则需要用request.body获得
         qs = request.body# 此时的qs为bytes类型的数据
-
-    qs_str = qs.decode() # decode将bytes转化为str类型
+        qs_str = qs.decode() # decode将bytes转化为str类型
+        import json
+        qs = json.loads(qs_str)
     """ 
     此时是JSON样式的 str数据，我们要把它转化为 python的字典使用 json.loads()
         {
@@ -49,9 +50,6 @@ def register(request):
             "password":"123456"        
         }
     """
-    import json
-    qs = json.loads(qs_str)
-
     # 获取POST的FORM表单，然后用字典操作，进行数据库输入
 
     Userinfo.objects.create(username = qs.get("username"),
@@ -172,3 +170,41 @@ def del_Session(request):
     # request.session.set_expiry(max_age)
 
     return HttpResponse("Del Session")
+
+def postAndget(request):
+    #同时实现GET和POST请求
+    if request.method=='GET':
+        return HttpResponse("Class View:GET逻辑请求")
+    else:
+        return HttpResponse("Class View:POST逻辑请求")
+
+"""
+类视图的定义
+Class 类视图名字(View):
+    def get(self,request):
+        return HttpResponse("XXX")
+    def http_method_lower(self,request):
+        return HttpResponse("XXX")
+1、继承自View
+2、类试图中的方法 是采用http方法小写来区分不同的请求方法
+"""
+from django.views import View
+class Class_view(View):
+    def get(self, request):
+        return HttpResponse("GET Function")
+    def post(self,request):
+        return HttpResponse("POST Function")
+    def put(self,request):
+        return HttpResponse("PUT Function")
+    def http_method_lower(self, request):
+        return HttpResponse("Class View")
+
+# class Person(object):
+#     def play(self):
+#         pass
+#     @classmethod
+#     def say(cls):
+#         pass
+#     @staticmethod
+#     def eat():
+#         pass

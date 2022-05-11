@@ -1,6 +1,8 @@
 from django.urls import path
 from book.views import create_book,delete_book,shop,school,register,method,\
     response,jsresponse,Redirect,set_Cookie,get_Cookie,del_Cookie,set_Session,get_Session,del_Session
+from book.views import postAndget
+from book.views import Class_view
 
 
 """自定义转化器"""
@@ -34,4 +36,7 @@ urlpatterns = [
     path('set_Session/',set_Session),
     path('get_Session/',get_Session),
     path('del_Session/',del_Session),
+    path('postAndget/',postAndget),
+    ########类试图路由######
+    path('classview/',Class_view.as_view())
 ]
