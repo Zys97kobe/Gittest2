@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from book.models import Book,Userinfo
+
 # Create your views here.
 def create_book(request):
     # book = Book.objects.create(
@@ -15,20 +16,21 @@ def delete_book(requset):
     return  HttpResponse("delete")
 
 def shop(request,city_id,shop_id):
+
     Query_params = request.GET
     # 查询字符串，字典类型，{key:value},
     # 但是Query_params可以一Key多value
-    print(Query_params)
     order = Query_params.getlist('keys')
     print(order)
     return HttpResponse("分店")
 
 def school(request,prince_id,city_id,school_id):
+    # 验证占位符是否符合条件。
+
+
     print(prince_id,city_id,school_id)
 
     return HttpResponse("高校系统")
-
-
 
 """FORM 表单 JSON 数据的接受"""
 def register(request):
@@ -60,3 +62,41 @@ def register(request):
 def method(request):
 
     return HttpResponse("请求类型为：%s" % request.method)
+
+"""Httpresponse"""
+# HttpResponse(content = 响应体,content_type = 响应体类型,status = 状态码)
+
+def response(request):
+    http = HttpResponse("response",status=200)
+    http["name"]='zhangyongsheng'
+    return http
+
+
+"""JsonResponse"""
+from django.http import JsonResponse
+def jsresponse(request):
+    friends = [
+        {
+            "name":"caiwenjuan",
+            "add":"shanghai"
+        }
+        ,
+        {
+            "name": "daiweijian",
+            "add": "shandong"
+        }
+        ,
+        {
+            "name":"chengxuhan",
+            "add":"shandong"
+        }
+    ]
+    # safe = True 表示 data为字典数据，JsonResponese可以将字典转换为json
+    # data不是字典时，需要将safe设为False
+    return JsonResponse(data = friends,safe=False)
+
+"""重定向"""
+from django.shortcuts import redirect
+def Redirect(request):
+
+    return redirect('https://www.baidu.com/')
