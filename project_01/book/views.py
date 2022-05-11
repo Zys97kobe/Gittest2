@@ -97,6 +97,36 @@ def jsresponse(request):
 
 """重定向"""
 from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
 def Redirect(request):
 
-    return redirect('https://www.baidu.com/')
+    return HttpResponseRedirect('https://www.baidu.com/')
+
+"""设置Cookie"""
+"""
+第一次请求携带查询字符串
+服务器接收到请求之后，获取username,服务器设置cookie信息，cookie信息包括username
+浏览器接受服务器响应之后，保存cookie
+
+第二次之后的请求，访问127.0.0.1都会携带cookie信息。
+http://127.0.0.1/set_Cookie/?username=zhangyongsheng&password=123456
+"""
+
+def set_Cookie(request):
+    # 获取查询字符串的信息
+    qs = request.GET
+    cookie_name = list(qs.keys())[0]
+    # 服务器设置cookie信息
+    # 响应对象.set_cookie()
+    response = HttpResponse('Set Cookie')
+    response.set_cookie(cookie_name,qs.get(cookie_name),max_age=60)
+    return response
+def get_Cookie(request):
+    # 服务器获取cookie信息，获取的为字典类型。
+    cookieInfo = request.COOKIES.get("name")
+    return HttpResponse("Get Cookieinfo:%s" %cookieInfo)
+def del_Cookie(request):
+    response = HttpResponse("Del Cookie")
+    response.delete_cookie('name')
+    #相当于set_cookie中将max_age设为0
+    return response
