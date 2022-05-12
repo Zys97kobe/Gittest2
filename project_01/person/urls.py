@@ -1,6 +1,6 @@
 from django.urls import path
 from person.views import peopleinfo
 
-urlpatterns = {
+urlpatterns = [
     path('info',peopleinfo)
-}
+]

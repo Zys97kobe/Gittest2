@@ -2,7 +2,7 @@ from django.urls import path
 from book.views import create_book,delete_book,shop,school,register,method,\
     response,jsresponse,Redirect,set_Cookie,get_Cookie,del_Cookie,set_Session,get_Session,del_Session
 from book.views import postAndget
-from book.views import Class_view
+from book.views import Class_view,Order
 
 
 """自定义转化器"""
@@ -23,7 +23,7 @@ urlpatterns = [
     # <占位符> 可以是任意的数字和字符组合,实际情况下通常字符串不能作为编号，要进行数据验证
     # <转换器：变量名> 转换器会对变量数据进行正则验证
     path('<int:prince_id>/<int:city_id>/<school:school_id>/',school),
-    path('<city_id>/<shop_id>/',shop),
+    path('<int:city_id>/<int:shop_id>/',shop),
     path('delete/',delete_book),
     path('register/',register),
     path('method/',method),
@@ -38,5 +38,8 @@ urlpatterns = [
     path('del_Session/',del_Session),
     path('postAndget/',postAndget),
     ########类试图路由######
-    path('classview/',Class_view.as_view())
+    path('classview/',Class_view.as_view()),
+
+    ########多继承#########
+    path('order/',Order.as_view())
 ]

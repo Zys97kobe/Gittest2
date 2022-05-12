@@ -191,9 +191,9 @@ Class 类视图名字(View):
 from django.views import View
 class Class_view(View):
     def get(self, request):
-        return HttpResponse("GET Function")
+        return redirect("https://www.baidu.com/")
     def post(self,request):
-        return HttpResponse("POST Function")
+        return redirect("https://www.jd.com/")
     def put(self,request):
         return HttpResponse("PUT Function")
     def http_method_lower(self, request):
@@ -208,3 +208,27 @@ class Class_view(View):
 #     @staticmethod
 #     def eat():
 #         pass
+
+"""
+多继承
+案例：
+个人订单按钮：
+1、登录用户跳转到订单页面
+2、未登录用户跳转到登录页面
+
+如何定义我们有没有登陆？
+1、装饰器，
+2、多继承
+"""
+from django.contrib.auth.mixins import LoginRequiredMixin
+# LoginRequiredMixin 可以判断登录状态
+
+# 继承的顺序是有区别的，（View, LoginRequiredMixin）和（LoginRequiredMixin,View）不同
+# super()逐一调用所有父类方法，且只执行一次，调用顺序遵循MRO类属性的顺序
+class Order(LoginRequiredMixin, View):
+
+    def get(self, request):
+        return HttpResponse("GET 我的订单页面，这个页面必须登录")
+
+    def post(self, request):
+        return HttpResponse("POST 我的订单页面，这个页面必须登录")
